@@ -13,5 +13,5 @@ module writer(
 always @(posedge CLK) begin
 end
 
-end module
+endmodule
 `default_nettype wire

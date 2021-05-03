@@ -1,35 +1,35 @@
 `default_nettype none
 `include "def.sv"
 
-module core (
+module cpu (
   input wire CLK,
   input wire RSTN,
   output wire [31:0] RESULT
 );
 
   // define CPU state
-  reg [3:0] = cpu_state;
+  reg [3:0] cpu_state;
   localparam s_idle = 0;
   localparam s_fetch = 1;
   localparam s_decode = 2;
   localparam s_execute = 3;
   localparam s_write = 4;
   initial begin
-    cpu_state <= s_fetch
+    cpu_state <= s_fetch;
   end
   always @(posedge CLK) begin
-    case(cpu_status)
+    case(cpu_state)
       s_fetch: begin
-        cpu_state <= s_decode
+        cpu_state <= s_decode;
       end
       s_decode: begin
-        cpu_state <= s_execute
+        cpu_state <= s_execute;
       end
       s_execute: begin
-        cpu_state <= s_write
+        cpu_state <= s_write;
       end
       s_write: begin
-        cpu_state <= s_fetch
+        cpu_state <= s_fetch;
       end
     endcase
   end
@@ -45,15 +45,15 @@ module core (
   // code for test
   ////////////////////
   //constants inst_mem
-  assign RESULT = register_file[2]
+  assign RESULT = register_file[3];
   reg [31:0] inst_mem [0:7] = '{
     32'b00000000001000011000000110110011, // ADD 3(rs1) + 2(rs2) = 3(rd)
     32'b00000000001000011000000110110011, // ADD 3(rs1) + 2(rs2) = 3(rd)
     32'b00000000001000011000000110110011, // ADD 3(rs1) + 2(rs2) = 3(rd)
     32'b00000000001000011000000110110011, // ADD 3(rs1) + 2(rs2) = 3(rd)
     32'b00000000001000011000000110110011, // ADD 3(rs1) + 2(rs2) = 3(rd)
-    32'b00000000001000011000000110110011  // ADD 3(rs1) + 2(rs2) = 3(rd)
-    32'b00000000001000011000000110110011  // ADD 3(rs1) + 2(rs2) = 3(rd)
+    32'b00000000001000011000000110110011,  // ADD 3(rs1) + 2(rs2) = 3(rd)
+    32'b00000000001000011000000110110011,  // ADD 3(rs1) + 2(rs2) = 3(rd)
     32'b00000000001000011000001010110011  // ADD 3(rs1) + 2(rs2) = 5(rd)
   };
   initial begin
@@ -124,5 +124,5 @@ module core (
   end
 
 
-end module
+endmodule
 `default_nettype wire

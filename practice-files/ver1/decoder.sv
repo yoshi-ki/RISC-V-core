@@ -14,11 +14,11 @@ module decoder(
 );
 
 
-wire opcode[6:0] = INSTRUCTION[6:0];
-wire rd[4:0] = INSTRUCTION[11:7];
-wire rs1[4:0] = INSTRUCTION[19:15];
-wire rs2[4:0] = INSTRUCTION[24:20];
-wire funct3[2:0] = INSTRUCTION[14:12];
+wire [6:0] opcode = INSTRUCTION[6:0];
+wire [4:0] rd = INSTRUCTION[11:7];
+wire [4:0] rs1 = INSTRUCTION[19:15];
+wire [4:0] rs2 = INSTRUCTION[24:20];
+wire [2:0] funct3 = INSTRUCTION[14:12];
 
 assign RS1 = rs1;
 assign RS2 = rs2;
@@ -30,5 +30,5 @@ always @(posedge CLK) begin
 
 end
 
-end module
+endmodule
 `default_nettype wire

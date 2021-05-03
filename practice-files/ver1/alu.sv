@@ -7,12 +7,12 @@ module aluer(
   input wire [31:0] RS1_VAL,
   input wire [31:0] RS2_VAL,
 
-  output wire[31:0] ALU_RESULT
+  output reg [31:0] ALU_RESULT
 );
 
-wire result =
-  CTR_INFO.add ? : $signed(RS1_VAL) + $signed(RS2_VAL):
-  CTR_INFO.sub ? : $signed(RS1_VAL) - $signed(RS2_VAL):
+wire [31:0] result =
+  CTR_INFO.add ? $signed(RS1_VAL) + $signed(RS2_VAL):
+  CTR_INFO.sub ? $signed(RS1_VAL) - $signed(RS2_VAL):
   31'b0;
 
 
@@ -20,5 +20,5 @@ always @(posedge CLK) begin
   ALU_RESULT <= result;
 end
 
-end module
+endmodule
 `default_nettype wire

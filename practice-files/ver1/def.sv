@@ -40,11 +40,11 @@ typedef struct {
   reg sll;
   reg slt;
   reg sltu;
-  reg xor;
+  reg xor_;
   reg srl;
   reg sra;
-  reg or;
-  reg and;
+  reg or_;
+  reg and_;
   reg fence;
   reg fence_i;
   reg ecall;
@@ -72,5 +72,5 @@ typedef struct {
 
 
 
-}control_info;
+} control_info;
 `endif
