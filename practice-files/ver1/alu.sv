@@ -4,8 +4,8 @@ module aluer(
   input wire CLK,
   input wire RSTN,
   input control_info CTR_INFO,
-  input wire [31:0] RS1_VAL,
-  input wire [31:0] RS2_VAL,
+  input reg [31:0] RS1_VAL,
+  input reg [31:0] RS2_VAL,
 
   output reg [31:0] ALU_RESULT
 );
