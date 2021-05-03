@@ -1,7 +1,8 @@
 `default_nettype none
 `include "def.sv"
-module executer(
+module aluer(
   input wire CLK,
+  input wire RSTN,
   input control_info CTR_INFO,
   input wire [31:0] RS1_VAL,
   input wire [31:0] RS2_VAL,

@@ -2,6 +2,9 @@
 `define _parameters
 
 typedef struct {
+
+  reg [4:0] rd;
+
   ////
   // rv-32-i instruction
   ////
