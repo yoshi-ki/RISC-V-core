@@ -4,7 +4,7 @@
 module core (
   input wire CLK,
   input wire RSTN,
-  output wire [15:0] RESULT
+  output wire [31:0] RESULT
 );
 
   // define CPU state
@@ -40,7 +40,12 @@ module core (
   reg [31:0] pc;
   reg [31:0] executing_inst;
 
+
+  ////////////////////
+  // code for test
+  ////////////////////
   //constants inst_mem
+  assign RESULT = register_file[2]
   reg [31:0] inst_mem [0:7] = '{
     32'b00000000001000011000000110110011, // ADD 3(rs1) + 2(rs2) = 3(rd)
     32'b00000000001000011000000110110011, // ADD 3(rs1) + 2(rs2) = 3(rd)
@@ -51,7 +56,6 @@ module core (
     32'b00000000001000011000000110110011  // ADD 3(rs1) + 2(rs2) = 3(rd)
     32'b00000000001000011000001010110011  // ADD 3(rs1) + 2(rs2) = 5(rd)
   };
-
   initial begin
     pc <= 0;
     register_file[2] <= 2;
