@@ -95,7 +95,53 @@ wire is_remu   = (opcode == 7'b0110011 & funct3 == 3'b111 & funct7 == 7'b0000001
 
 always @(posedge CLK) begin
 
+  CTR_INFO.lui <= is_lui;
+  CTR_INFO.auipc <= is_auipc;
+  CTR_INFO.jal <= is_jal;
+  CTR_INFO.jalr <= is_jalr;
+  CTR_INFO.beq <= is_beq;
+  CTR_INFO.bne <= is_bne;
+  CTR_INFO.blt <= is_blt;
+  CTR_INFO.bge <= is_bge;
+  CTR_INFO.bltu <= is_bltu;
+  CTR_INFO.bgeu <= is_bgeu;
+  CTR_INFO.lb <= is_lb;
+  CTR_INFO.lh <= is_lh;
+  CTR_INFO.lw <= is_lw;
+  CTR_INFO.lbu <= is_lbu
+  CTR_INFO.lhu <= is_lhu;
+  CTR_INFO.sb <= is_sb;
+  CTR_INFO.sh <= is_sh;
+  CTR_INFO.sw <= is_sw;
+  CTR_INFO.addi <= is_addi;
+  CTR_INFO.slti <= is_slti;
+  CTR_INFO.sltiu <= is_sltiu;
+  CTR_INFO.xori <= is_xori;
+  CTR_INFO.ori <= is_ori;
+  CTR_INFO.andi <= is_andi;
+  CTR_INFO.srli <= is_srli;
+  CTR_INFO.srai <= is_srai;
   CTR_INFO.add <= is_add;
+  CTR_INFO.sub <= is_sub;
+  CTR_INFO.sll <= is_sll;
+  CTR_INFO.slt <= is_slt;
+  CTR_INFO.sltu <= is_sltu;
+  CTR_INFO.xor_ <= is_xor;
+  CTR_INFO.srl <= is_srl;
+  CTR_INFO.sra <= is_sra;
+  CTR_INFO.or_ <= is_or;
+  CTR_INFO.and_ <= is_and;
+
+  CTR_INFO.mul <= is_mul;
+  CTR_INFO.mulh <= is_mulh;
+  CTR_INFO.mulhsu <= is_mulhsu;
+  CTR_INFO.mulhu <= is_mulhu;
+  CTR_INFO.div <= is_div;
+  CTR_INFO.divu <= is_divu;
+  CTR_INFO.rem <= is_rem;
+  CTR_INFO.remu <= is_remu;
+
+
   CTR_INFO.rd <= RD;
   CTR_INFO.immediate <= IMMEDIATE;
 
