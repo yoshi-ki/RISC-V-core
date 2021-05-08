@@ -8,11 +8,8 @@ module decoder(
   output wire [4:0] RS1,
   output wire [4:0] RS2,
   output control_info CTR_INFO
-  // immediate
-  // output reg [31:0] IMM,
 
 );
-
 
 wire [6:0] opcode = INSTRUCTION[6:0];
 wire [4:0] rd = INSTRUCTION[11:7];
@@ -33,15 +30,15 @@ wire J_type = (opcode == 7'b1101111);
 // decode the instruction components
 assign RS1    = (R_type | I_type | S_type | B_type) ? rs1 : 5'b0;
 assign RS2    = (R_type | S_type | B_type)          ? rs2 : 5'b0;
-assign RD     = (R_type | I_type | U_type | J_type) ? rd  : 5'b0;
-assign funct3 = (R_type | I_type | S_type | B_type) ? funct3_ : 3'b0;
-assign funct7 = (R_type)                            ? funct7_ : 7'b0;
-assign IMMEDIATE = (I_type) ? (INSTRUCTION[31] ? {~20'b0, INSTRUCTION[31:20]} : {20'b0, INSTRUCTION[31:20]}) :
-                  (S_type) ? (INSTRUCTION[31] ? {~20'b0, INSTRUCTION[31:25], INSTRUCTION[11:7]} : {20'b0, INSTRUCTION[31:25], INSTRUCTION[11:7]}) :
-                  (B_type) ? {INSTRUCTION[31] ? {~19'b0, INSTRUCTION[31], INSTRUCTION[7], INSTRUCTION[30:25], INSTRUCTION[11:8]} : {19'b0, INSTRUCTION[31], INSTRUCTION[7], INSTRUCTION[30:25], INSTRUCTION[11:8]}} :
-                  (U_type) ? {INSTRUCTION[31] ? {INSTRUCTION[31:12], 12'b0}} :
-                  (J_type) ? {INSTRUCTION[31] ? {~11'b0, INSTRUCTION[19:12], INSTRUCTION[20], INSTRUCTION[30:21], 1'b0} : {11'b0, INSTRUCTION[19:12], INSTRUCTION[20], INSTRUCTION[30:21], 1'b0}} :
-                  32'b0;
+wire [4:0] RD     = (R_type | I_type | U_type | J_type) ? rd : 5'b0;
+wire funct3 = (R_type | I_type | S_type | B_type) ? funct3_ : 3'b0;
+wire funct7 = (R_type)                            ? funct7_ : 7'b0;
+wire IMMEDIATE = (I_type) ? (INSTRUCTION[31] ? {~20'b0, INSTRUCTION[31:20]} : {20'b0, INSTRUCTION[31:20]}) :
+                (S_type) ? (INSTRUCTION[31] ? {~20'b0, INSTRUCTION[31:25], INSTRUCTION[11:7]} : {20'b0, INSTRUCTION[31:25], INSTRUCTION[11:7]}) :
+                (B_type) ? {INSTRUCTION[31] ? {~19'b0, INSTRUCTION[31], INSTRUCTION[7], INSTRUCTION[30:25], INSTRUCTION[11:8]} : {19'b0, INSTRUCTION[31], INSTRUCTION[7], INSTRUCTION[30:25], INSTRUCTION[11:8]}} :
+                (U_type) ? {INSTRUCTION[31:12], 12'b0} :
+                (J_type) ? {INSTRUCTION[31] ? {~11'b0, INSTRUCTION[19:12], INSTRUCTION[20], INSTRUCTION[30:21], 1'b0} : {11'b0, INSTRUCTION[19:12], INSTRUCTION[20], INSTRUCTION[30:21], 1'b0}} :
+                32'b0;
 
 
 // Identify instructions
@@ -108,7 +105,7 @@ always @(posedge CLK) begin
   CTR_INFO.lb <= is_lb;
   CTR_INFO.lh <= is_lh;
   CTR_INFO.lw <= is_lw;
-  CTR_INFO.lbu <= is_lbu
+  CTR_INFO.lbu <= is_lbu;
   CTR_INFO.lhu <= is_lhu;
   CTR_INFO.sb <= is_sb;
   CTR_INFO.sh <= is_sh;
@@ -119,6 +116,7 @@ always @(posedge CLK) begin
   CTR_INFO.xori <= is_xori;
   CTR_INFO.ori <= is_ori;
   CTR_INFO.andi <= is_andi;
+  CTR_INFO.slli <= is_slli;
   CTR_INFO.srli <= is_srli;
   CTR_INFO.srai <= is_srai;
   CTR_INFO.add <= is_add;
@@ -149,3 +147,39 @@ end
 
 endmodule
 `default_nettype wire
+
+
+// `default_nettype none
+// `include "def.sv"
+// module decoder(
+//   input wire CLK,
+//   input wire RSTN,
+//   input wire [31:0] INSTRUCTION,
+
+//   output wire [4:0] RS1,
+//   output wire [4:0] RS2,
+//   output control_info CTR_INFO
+//   // immediate
+//   // output reg [31:0] IMM,
+
+// );
+
+
+// wire [6:0] opcode = INSTRUCTION[6:0];
+// wire [4:0] rd = INSTRUCTION[11:7];
+// wire [4:0] rs1 = INSTRUCTION[19:15];
+// wire [4:0] rs2 = INSTRUCTION[24:20];
+// wire [2:0] funct3 = INSTRUCTION[14:12];
+
+// assign RS1 = rs1;
+// assign RS2 = rs2;
+
+// always @(posedge CLK) begin
+
+//   CTR_INFO.add <= 1'b1;
+//   CTR_INFO.rd <= rd;
+
+// end
+
+// endmodule
+// `default_nettype wire
