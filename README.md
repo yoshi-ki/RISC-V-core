@@ -7,4 +7,6 @@ Currently /src is an empty directry but I am now posting current progress versio
 
 /ver1: This core can execute add.
 
-/ver2: Start implementing other instructions other than memory related ones.
+/ver2: This core can execute almost all of the rv32i instructions (not tested yet)
+
+/ver3: Start implementing easy memory using registers (plan to make fibonacci executable)
