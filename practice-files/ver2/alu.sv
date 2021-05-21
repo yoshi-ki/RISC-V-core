@@ -12,7 +12,7 @@ module aluer(
 
 wire [31:0] result =
   // instructions lui, auipc,
-  CTR.INFO.lui ? CTR_INFO.immediate:
+  CTR_INFO.lui ? CTR_INFO.immediate:
   CTR_INFO.auipc ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
 
   // jump instructions

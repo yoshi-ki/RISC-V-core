@@ -14,7 +14,6 @@ module executer(
 aluer alu(
   .CLK(CLK),
   .RSTN(RSTN),
-  .PC(PC),
   .CTR_INFO(CTR_INFO),
   .RS1_VAL(RS1_VAL),
   .RS2_VAL(RS2_VAL),
@@ -33,7 +32,7 @@ assign JUMP_DEST = CTR_INFO.jal                                            ? CTR
                   (CTR_INFO.bge && ($signed(RS1_VAL) >= $signed(RS2_VAL))) ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
                   (CTR_INFO.bltu && (RS1_VAL < RS2_VAL))                   ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
                   (CTR_INFO.bgeu && (RS1_VAL >= RS2_VAL))                  ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
-                  CTR_INFO.pc + 1
+                  CTR_INFO.pc + 1;
 
 
 

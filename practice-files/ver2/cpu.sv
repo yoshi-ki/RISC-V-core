@@ -81,7 +81,7 @@ module cpu (
     .CLK(CLK),
     .RSTN(RSTN),
     .INSTRUCTION(instruction),
-    .PC(pc)
+    .PC(pc),
     .RS1(rs1),
     .RS2(rs2),
     .CTR_INFO(ctr_info)
@@ -90,7 +90,7 @@ module cpu (
   reg [31:0] rs2_val;
   // need for execute stage
   reg [31:0] exec_result;
-  wire [31:0] jump_dest
+  wire [31:0] jump_dest;
   executer execute (
     .CLK(CLK),
     .RSTN(RSTN),
