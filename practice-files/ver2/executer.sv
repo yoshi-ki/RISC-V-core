@@ -6,7 +6,7 @@ module executer(
   input control_info CTR_INFO,
   input reg [31:0] RS1_VAL,
   input reg [31:0] RS2_VAL,
-
+  output wire [31:0] JUMP_DEST,
   output reg [31:0] EXEC_RESULT
 );
 
@@ -25,7 +25,16 @@ aluer alu(
 // fpuer fpu(
 // );
 
-// TODO: related with PC
+assign JUMP_DEST = CTR_INFO.jal                                            ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
+                  CTR_INFO.jalr                                            ? RS1_VAL + $signed(CTR_INFO.immediate):
+                  (CTR_INFO.beq && (RS1_VAL == RS2_VAL))                   ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
+                  (CTR_INFO.bne && (RS1_VAL != RS2_VAL))                   ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
+                  (CTR_INFO.blt && ($signed(RS1_VAL) < $signed(RS2_VAL)))  ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
+                  (CTR_INFO.bge && ($signed(RS1_VAL) >= $signed(RS2_VAL))) ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
+                  (CTR_INFO.bltu && (RS1_VAL < RS2_VAL))                   ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
+                  (CTR_INFO.bgeu && (RS1_VAL >= RS2_VAL))                  ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
+                  CTR_INFO.pc + 1
+
 
 
 always @(posedge CLK) begin

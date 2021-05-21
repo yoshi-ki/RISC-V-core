@@ -34,7 +34,7 @@ wire [31:0] result =
   CTR_INFO.andi  ? RS1_VAL & CTR_INFO.immediate:
   CTR_INFO.slli  ? RS1_VAL << CTR_INFO.immediate[4:0]:
   CTR_INFO.srli  ? RS1_VAL >> CTR_INFO.immediate[4:0]:
-  CTR_INFO.srai  ? RS1_VAL >> CTR_INFO.immediate[4:0]:
+  CTR_INFO.srai  ? $signed(RS1_VAL) >>> CTR_INFO.immediate[4:0]:
 
   // instructions using two registers
   CTR_INFO.add  ? $signed(RS1_VAL) + $signed(RS2_VAL):
@@ -49,7 +49,6 @@ wire [31:0] result =
   CTR_INFO.and_ ? RS1_VAL & RS2_VAL:
   32'b0;
 
-// wire [31:0] new_pc =
 
 
 

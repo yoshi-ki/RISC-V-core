@@ -90,12 +90,14 @@ module cpu (
   reg [31:0] rs2_val;
   // need for execute stage
   reg [31:0] exec_result;
+  wire [31:0] jump_dest
   executer execute (
     .CLK(CLK),
     .RSTN(RSTN),
     .CTR_INFO(ctr_info),
     .RS1_VAL(rs1_val),
     .RS2_VAL(rs2_val),
+    .JUMP_DEST(jump_dest),
     .EXEC_RESULT(exec_result)
   );
 
@@ -120,8 +122,7 @@ module cpu (
 
       // case : exec instruction case
       s_execute: begin
-        //TODO: related with pc
-        pc <= pc + 1;
+        pc <= jump_dest;
       end
 
       // write back
