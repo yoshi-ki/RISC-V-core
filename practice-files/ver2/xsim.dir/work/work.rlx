@@ -1,0 +1,10 @@
+0.7
+2020.2
+Nov 18 2020
+09:20:35
+/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/alu.sv,1620374642,systemVerilog,,/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/decoder.sv,/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/def.sv,aluer,,,,,,,,
+/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/cpu.sv,1620457036,systemVerilog,,/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/alu.sv,/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/def.sv,cpu,,,,,,,,
+/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/decoder.sv,1620459054,systemVerilog,,/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/executer.sv,/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/def.sv,decoder,,,,,,,,
+/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/def.sv,1620457792,verilog,,,,,,,,,,,,
+/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/executer.sv,1620457227,systemVerilog,,,/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/def.sv,executer,,,,,,,,
+/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/test_cpu.sv,1620374642,systemVerilog,/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/alu.sv;/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/cpu.sv;/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/decoder.sv;/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/executer.sv,/home/fujiwara/Master/RISCV/RISC-V-core/practice-files/ver2/cpu.sv,,$unit_test_cpu_sv;test_cpu,,,,,,,,
