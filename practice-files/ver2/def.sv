@@ -3,6 +3,7 @@
 
 typedef struct {
 
+  reg [31:0] pc;
   reg [4:0] rd;
   reg [31:0] immediate;
 

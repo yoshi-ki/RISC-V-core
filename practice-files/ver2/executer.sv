@@ -14,6 +14,7 @@ module executer(
 aluer alu(
   .CLK(CLK),
   .RSTN(RSTN),
+  .PC(PC),
   .CTR_INFO(CTR_INFO),
   .RS1_VAL(RS1_VAL),
   .RS2_VAL(RS2_VAL),
@@ -24,7 +25,11 @@ aluer alu(
 // fpuer fpu(
 // );
 
+// TODO: related with PC
+
+
 always @(posedge CLK) begin
+
 end
 
 endmodule

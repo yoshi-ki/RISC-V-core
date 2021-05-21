@@ -4,6 +4,7 @@ module decoder(
   input wire CLK,
   input wire RSTN,
   input wire [31:0] INSTRUCTION,
+  input wire [31:0] PC,
 
   output wire [4:0] RS1,
   output wire [4:0] RS2,
@@ -142,6 +143,7 @@ always @(posedge CLK) begin
 
   CTR_INFO.rd <= RD;
   CTR_INFO.immediate <= IMMEDIATE;
+  CTR_INFO.pc <= PC;
 
 end
 

@@ -12,13 +12,15 @@ module aluer(
 
 wire [31:0] result =
   // instructions lui, auipc,
-  // TODO: implement instructions
+  CTR.INFO.lui ? CTR_INFO.immediate:
+  CTR_INFO.auipc ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
 
   // jump instructions
-  // TODO: implement instructions
+  CTR_INFO.jal  ? CTR_INFO.pc + 1:
+  CTR_INFO.jalr ? CTR_INFO.pc + 1:
 
   // branch instructions
-  // TODO: implement instructions
+  // do nothing
 
   // instructions for load and store
   // TODO: implement instructions
@@ -46,6 +48,9 @@ wire [31:0] result =
   CTR_INFO.or_  ? RS1_VAL | RS2_VAL:
   CTR_INFO.and_ ? RS1_VAL & RS2_VAL:
   32'b0;
+
+// wire [31:0] new_pc =
+
 
 
 always @(posedge CLK) begin

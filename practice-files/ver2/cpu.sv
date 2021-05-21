@@ -81,6 +81,7 @@ module cpu (
     .CLK(CLK),
     .RSTN(RSTN),
     .INSTRUCTION(instruction),
+    .PC(pc)
     .RS1(rs1),
     .RS2(rs2),
     .CTR_INFO(ctr_info)
@@ -113,13 +114,14 @@ module cpu (
 
       // decode instruction
       s_decode: begin
-        pc <= pc + 1;
         rs1_val <= register_file[rs1];
         rs2_val <= register_file[rs2];
       end
 
       // case : exec instruction case
       s_execute: begin
+        //TODO: related with pc
+        pc <= pc + 1;
       end
 
       // write back
