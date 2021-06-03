@@ -51,6 +51,7 @@ wire [31:0] result =
 
 
 
+
 always @(posedge CLK) begin
   ALU_RESULT <= result;
 end

@@ -25,21 +25,22 @@ aluer alu(
 // fpuer fpu(
 // );
 
-assign JUMP_DEST = CTR_INFO.jal                                            ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
-                  CTR_INFO.jalr                                            ? RS1_VAL + $signed(CTR_INFO.immediate):
-                  (CTR_INFO.beq && (RS1_VAL == RS2_VAL))                   ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
-                  (CTR_INFO.bne && (RS1_VAL != RS2_VAL))                   ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
-                  (CTR_INFO.blt && ($signed(RS1_VAL) < $signed(RS2_VAL)))  ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
-                  (CTR_INFO.bge && ($signed(RS1_VAL) >= $signed(RS2_VAL))) ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
-                  (CTR_INFO.bltu && (RS1_VAL < RS2_VAL))                   ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
-                  (CTR_INFO.bgeu && (RS1_VAL >= RS2_VAL))                  ? CTR_INFO.pc + $signed(CTR_INFO.immediate):
+//TODO: watch out this immediate shift
+assign JUMP_DEST = CTR_INFO.jal                                            ? CTR_INFO.pc + ($signed(CTR_INFO.immediate) >> 2):
+                  CTR_INFO.jalr                                            ? RS1_VAL + ($signed(CTR_INFO.immediate) >> 2):
+                  (CTR_INFO.beq && (RS1_VAL == RS2_VAL))                   ? CTR_INFO.pc + ($signed(CTR_INFO.immediate) >> 2):
+                  (CTR_INFO.bne && (RS1_VAL != RS2_VAL))                   ? CTR_INFO.pc + ($signed(CTR_INFO.immediate) >> 2):
+                  (CTR_INFO.blt && ($signed(RS1_VAL) < $signed(RS2_VAL)))  ? CTR_INFO.pc + ($signed(CTR_INFO.immediate) >> 2):
+                  (CTR_INFO.bge && ($signed(RS1_VAL) >= $signed(RS2_VAL))) ? CTR_INFO.pc + ($signed(CTR_INFO.immediate) >> 2):
+                  (CTR_INFO.bltu && (RS1_VAL < RS2_VAL))                   ? CTR_INFO.pc + ($signed(CTR_INFO.immediate) >> 2):
+                  (CTR_INFO.bgeu && (RS1_VAL >= RS2_VAL))                  ? CTR_INFO.pc + ($signed(CTR_INFO.immediate) >> 2):
                   CTR_INFO.pc + 1;
 
 
 
 // memory instructions
-// TODO: implement memory instructions
-wire address = $signed({1'b0, RS1_VAL}) + $signed(CTR_INFO.immediate);
+// TODO: configure address length
+wire [4:0] address = $signed({1'b0, RS1_VAL}) + $signed(CTR_INFO.immediate);
 wire write_enable = (CTR_INFO.sb || CTR_INFO.sh || CTR_INFO.sw) ? 1'b1 : 1'b0;
 
 block_memory memory (

@@ -34,7 +34,7 @@ assign RS2    = (R_type | S_type | B_type)          ? rs2 : 5'b0;
 wire [4:0] RD     = (R_type | I_type | U_type | J_type) ? rd : 5'b0;
 wire funct3 = (R_type | I_type | S_type | B_type) ? funct3_ : 3'b0;
 wire funct7 = (R_type)                            ? funct7_ : 7'b0;
-wire IMMEDIATE = (I_type) ? (INSTRUCTION[31] ? {~20'b0, INSTRUCTION[31:20]} : {20'b0, INSTRUCTION[31:20]}) :
+wire [31:0] IMMEDIATE = (I_type) ? (INSTRUCTION[31] ? {~20'b0, INSTRUCTION[31:20]} : {20'b0, INSTRUCTION[31:20]}) :
                 (S_type) ? (INSTRUCTION[31] ? {~20'b0, INSTRUCTION[31:25], INSTRUCTION[11:7]} : {20'b0, INSTRUCTION[31:25], INSTRUCTION[11:7]}) :
                 (B_type) ? {INSTRUCTION[31] ? {~19'b0, INSTRUCTION[31], INSTRUCTION[7], INSTRUCTION[30:25], INSTRUCTION[11:8]} : {19'b0, INSTRUCTION[31], INSTRUCTION[7], INSTRUCTION[30:25], INSTRUCTION[11:8]}} :
                 (U_type) ? {INSTRUCTION[31:12], 12'b0} :
