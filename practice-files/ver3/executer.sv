@@ -26,17 +26,17 @@ aluer alu(
 // );
 
 //TODO: watch out this immediate shift
-assign JUMP_DEST = CTR_INFO.jal                                            ? CTR_INFO.pc + ($signed(CTR_INFO.immediate) >>> 2):
-                  CTR_INFO.jalr                                            ? RS1_VAL + ($signed(CTR_INFO.immediate) >>> 2):
-                  (CTR_INFO.beq && (RS1_VAL == RS2_VAL))                   ? CTR_INFO.pc + ($signed(CTR_INFO.immediate) >>> 2):
-                  (CTR_INFO.bne && (RS1_VAL != RS2_VAL))                   ? CTR_INFO.pc + ($signed(CTR_INFO.immediate) >>> 2):
-                  (CTR_INFO.blt && ($signed(RS1_VAL) < $signed(RS2_VAL)))  ? CTR_INFO.pc + ($signed(CTR_INFO.immediate) >>> 2):
-                  (CTR_INFO.bge && ($signed(RS1_VAL) >= $signed(RS2_VAL))) ? CTR_INFO.pc + ($signed(CTR_INFO.immediate) >>> 2):
-                  (CTR_INFO.bltu && (RS1_VAL < RS2_VAL))                   ? CTR_INFO.pc + ($signed(CTR_INFO.immediate) >>> 2):
-                  (CTR_INFO.bgeu && (RS1_VAL >= RS2_VAL))                  ? CTR_INFO.pc + ($signed(CTR_INFO.immediate) >>> 2):
+assign JUMP_DEST = CTR_INFO.jal                                            ? $signed(CTR_INFO.pc) + $signed($signed(CTR_INFO.immediate) >>> 2):
+                  CTR_INFO.jalr                                            ? $signed(RS1_VAL) + $signed($signed(CTR_INFO.immediate) >>> 2):
+                  (CTR_INFO.beq && (RS1_VAL == RS2_VAL))                   ? $signed(CTR_INFO.pc) + $signed($signed(CTR_INFO.immediate) >>> 2):
+                  (CTR_INFO.bne && (RS1_VAL != RS2_VAL))                   ? $signed(CTR_INFO.pc) + $signed($signed(CTR_INFO.immediate) >>> 2):
+                  (CTR_INFO.blt && ($signed(RS1_VAL) < $signed(RS2_VAL)))  ? $signed(CTR_INFO.pc) + $signed($signed(CTR_INFO.immediate) >>> 2):
+                  (CTR_INFO.bge && ($signed(RS1_VAL) >= $signed(RS2_VAL))) ? $signed(CTR_INFO.pc) + $signed($signed(CTR_INFO.immediate) >>> 2):
+                  (CTR_INFO.bltu && (RS1_VAL < RS2_VAL))                   ? $signed(CTR_INFO.pc) + $signed($signed(CTR_INFO.immediate) >>> 2):
+                  (CTR_INFO.bgeu && (RS1_VAL >= RS2_VAL))                  ? $signed(CTR_INFO.pc) + $signed($signed(CTR_INFO.immediate) >>> 2):
                   CTR_INFO.pc + 1;
 
-
+wire [31:0] note = ($signed(CTR_INFO.immediate) >>> 2);
 
 // memory instructions
 // TODO: configure address length
