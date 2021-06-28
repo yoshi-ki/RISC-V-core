@@ -36,11 +36,11 @@ assign JUMP_DEST = CTR_INFO.jal                                            ? $si
                   (CTR_INFO.bgeu && (RS1_VAL >= RS2_VAL))                  ? $signed(CTR_INFO.pc) + $signed($signed(CTR_INFO.immediate) >>> 2):
                   CTR_INFO.pc + 1;
 
-wire [31:0] note = ($signed(CTR_INFO.immediate) >>> 2);
+wire [31:0] note = $signed(CTR_INFO.pc) + $signed($signed(CTR_INFO.immediate) >>> 2) ;
 
 // memory instructions
 // TODO: configure address length
-wire [4:0] address = $signed({1'b0, RS1_VAL}) + $signed(CTR_INFO.immediate);
+wire [9:0] address = $signed({1'b0, RS1_VAL}) + $signed(CTR_INFO.immediate);
 wire write_enable = (CTR_INFO.sb || CTR_INFO.sh || CTR_INFO.sw) ? 1'b1 : 1'b0;
 
 block_memory memory (

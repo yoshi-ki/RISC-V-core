@@ -3,7 +3,7 @@
 module block_memory(
   input wire CLK,
   input wire RSTN,
-  input wire [4:0] ADDRESS,
+  input wire [9:0] ADDRESS,
   input wire WRITE_ENABLE,
   input wire [31:0] WRITE_DATA,
   output reg [31:0] READ_DATA

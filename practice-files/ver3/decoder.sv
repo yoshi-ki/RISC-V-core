@@ -36,7 +36,7 @@ wire [2:0] funct3 = (R_type | I_type | S_type | B_type) ? funct3_ : 3'b0;
 wire [6:0] funct7 = (R_type)                            ? funct7_ : 7'b0;
 wire [31:0] IMMEDIATE = (I_type) ? (INSTRUCTION[31] ? {~20'b0, INSTRUCTION[31:20]} : {20'b0, INSTRUCTION[31:20]}) :
                 (S_type) ? (INSTRUCTION[31] ? {~20'b0, INSTRUCTION[31:25], INSTRUCTION[11:7]} : {20'b0, INSTRUCTION[31:25], INSTRUCTION[11:7]}) :
-                (B_type) ? {INSTRUCTION[31] ? {~19'b0, INSTRUCTION[31], INSTRUCTION[7], INSTRUCTION[30:25], INSTRUCTION[11:8]} : {19'b0, INSTRUCTION[31], INSTRUCTION[7], INSTRUCTION[30:25], INSTRUCTION[11:8]}} :
+                (B_type) ? {INSTRUCTION[31] ? {~19'b0, INSTRUCTION[31], INSTRUCTION[7], INSTRUCTION[30:25], INSTRUCTION[11:8], 1'b0} : {19'b0, INSTRUCTION[31], INSTRUCTION[7], INSTRUCTION[30:25], INSTRUCTION[11:8], 1'b0}} :
                 (U_type) ? {INSTRUCTION[31:12], 12'b0} :
                 (J_type) ? {INSTRUCTION[31] ? {~11'b0, INSTRUCTION[31], INSTRUCTION[19:12], INSTRUCTION[20], INSTRUCTION[30:21], 1'b0} : {11'b0, INSTRUCTION[31], INSTRUCTION[19:12], INSTRUCTION[20], INSTRUCTION[30:21], 1'b0}} :
                 32'b0;

@@ -17,7 +17,7 @@ module test_cpu ();
     //   $display(result);
     // end
     clk = 0;
-    for (i = 0; i < 1000; i++) begin
+    for (i = 0; i < 100000; i++) begin
       #10 clk = ~clk;
       $display(result);
     end
