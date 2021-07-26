@@ -76,7 +76,6 @@ typedef struct {
 
 
   // represents it is conditional jump instructions
-  reg conditional_jump;
   reg forwarding_rs1;
   reg forwarding_rs2;
 

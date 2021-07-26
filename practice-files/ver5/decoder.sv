@@ -6,7 +6,7 @@ module decoder(
   input reg DECODER_ENABLED,
   input wire [31:0] INSTRUCTION,
   input wire [31:0] PC,
-
+  output wire CONDITIONAL_JUMP,
   output control_info CTR_INFO
 
 );
@@ -87,7 +87,11 @@ wire is_divu   = (opcode == 7'b0110011 & funct3 == 3'b101 & funct7 == 7'b0000001
 wire is_rem    = (opcode == 7'b0110011 & funct3 == 3'b110 & funct7 == 7'b0000001);
 wire is_remu   = (opcode == 7'b0110011 & funct3 == 3'b111 & funct7 == 7'b0000001);
 
-wire is_conditional_jump = (is_beq || is_bne || is_blt || is_bge || is_bltu || is_bgeu);
+// wire is_conditional_jump = (is_beq || is_bne || is_blt || is_bge || is_bltu || is_bgeu);
+// wire is_jump_inst = (is_jal || is_jalr);
+wire is_conditional_jump = (is_beq || is_bne || is_blt || is_bge || is_bltu || is_bgeu || is_jal || is_jalr);
+
+assign CONDITIONAL_JUMP = is_conditional_jump;
 
 // check if it needs forwarding
 reg [4:0] prev_rd;
@@ -154,7 +158,8 @@ always @(posedge CLK) begin
     CTR_INFO.rs1 <= RS1;
     CTR_INFO.rs2 <= RS2;
 
-    CTR_INFO.conditional_jump <= is_conditional_jump;
+
+    // CTR_INFO.jump_inst <= is_jump_inst;
 
   end
 

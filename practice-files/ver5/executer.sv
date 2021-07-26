@@ -14,8 +14,8 @@ module executer(
 );
 
 //TODO: Forwarding
-wire [31:0] RS1_VAL = REGISTER_FILE[CTR_INFO.rs1];
-wire [31:0] RS2_VAL = REGISTER_FILE[CTR_INFO.rs2];
+wire [31:0] RS1_VAL = (CTR_INFO.forwarding_rs1) ? FORWARDED_VAL : REGISTER_FILE[CTR_INFO.rs1];
+wire [31:0] RS2_VAL = (CTR_INFO.forwarding_rs2) ? FORWARDED_VAL : REGISTER_FILE[CTR_INFO.rs2];
 
 aluer alu(
   .CLK(CLK),
@@ -61,7 +61,9 @@ block_memory memory (
 
 
 always @(posedge CLK) begin
-  CTR_INFO_OUT <= CTR_INFO;
+  if (EXECUTER_ENABLED) begin
+    CTR_INFO_OUT <= CTR_INFO;
+  end
 end
 
 endmodule
