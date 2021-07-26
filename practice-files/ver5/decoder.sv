@@ -89,11 +89,18 @@ wire is_divu   = (opcode == 7'b0110011 & funct3 == 3'b101 & funct7 == 7'b0000001
 wire is_rem    = (opcode == 7'b0110011 & funct3 == 3'b110 & funct7 == 7'b0000001);
 wire is_remu   = (opcode == 7'b0110011 & funct3 == 3'b111 & funct7 == 7'b0000001);
 
+wire is_conditional_jump = (is_beq || is_bne || is_blt || is_bge || is_bltu || is_bgeu);
 
+// check if it needs forwarding
+reg [4:0] prev_rd;
 
 always @(posedge CLK) begin
 
   if (DECODER_ENABLED) begin
+    // first check forwarding
+    CTR_INFO.forwarding_rs1 = (prev_rd == RS1) ? 1'b1 : 1'b0;
+    CTR_INFO.forwarding_rs2 = (prev_rd == RS2) ? 1'b1 : 1'b0;
+    prev_rd <= RD;
 
     CTR_INFO.lui <= is_lui;
     CTR_INFO.auipc <= is_auipc;
@@ -146,6 +153,8 @@ always @(posedge CLK) begin
     CTR_INFO.rd <= RD;
     CTR_INFO.immediate <= IMMEDIATE;
     CTR_INFO.pc <= PC;
+
+    CTR_INFO.conditional_jump <= is_conditional_jump;
 
   end
 

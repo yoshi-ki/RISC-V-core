@@ -11,6 +11,8 @@ module aluer(
   output reg [31:0] ALU_RESULT
 );
 
+
+
 wire [31:0] result =
   // instructions lui, auipc,
   CTR_INFO.lui ? CTR_INFO.immediate:

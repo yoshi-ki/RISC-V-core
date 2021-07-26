@@ -139,6 +139,7 @@ module cpu (
     .CTR_INFO(ctr_info),
     .RS1_VAL(rs1_val),
     .RS2_VAL(rs2_val),
+    .FORWARDED_VAL(write_data),
     .JUMP_DEST(jump_dest),
     .EXEC_RD(exec_rd),
     .MEMORY_OUT(memory_out)

@@ -7,6 +7,7 @@ module executer(
   input control_info CTR_INFO,
   input reg [31:0] RS1_VAL,
   input reg [31:0] RS2_VAL,
+  input reg [31:0] FORWARDED_VAL,
   output wire [31:0] JUMP_DEST,
   output reg [31:0] EXEC_RD,
   output reg [31:0] MEMORY_OUT
