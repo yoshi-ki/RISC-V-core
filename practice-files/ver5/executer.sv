@@ -10,7 +10,8 @@ module executer(
   input reg [31:0] FORWARDED_VAL,
   output wire [31:0] JUMP_DEST,
   output reg [31:0] EXEC_RD,
-  output reg [31:0] MEMORY_OUT
+  output reg [31:0] MEMORY_OUT,
+  output control_info CTR_INFO_OUT
 );
 
 
@@ -58,7 +59,7 @@ block_memory memory (
 
 
 always @(posedge CLK) begin
-
+  CTR_INFO_OUT <= CTR_INFO;
 end
 
 endmodule

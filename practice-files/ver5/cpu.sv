@@ -110,7 +110,8 @@ module cpu (
   // define variables
   ////////////////////
   // need for overall
-  control_info ctr_info;
+  control_info ctr_info_d;
+  control_info ctr_info_e;
   // need for fetch stage
   reg [31:0] instruction;
   // need for decode stage
@@ -124,7 +125,7 @@ module cpu (
     .PC(pc),
     .RS1(rs1),
     .RS2(rs2),
-    .CTR_INFO(ctr_info)
+    .CTR_INFO(ctr_info_d)
   );
   reg [31:0] rs1_val;
   reg [31:0] rs2_val;
@@ -136,13 +137,14 @@ module cpu (
     .CLK(CLK),
     .RSTN(RSTN),
     .EXECUTER_ENABLED(executer_enabled),
-    .CTR_INFO(ctr_info),
+    .CTR_INFO(ctr_info_d),
     .RS1_VAL(rs1_val),
     .RS2_VAL(rs2_val),
     .FORWARDED_VAL(write_data),
     .JUMP_DEST(jump_dest),
     .EXEC_RD(exec_rd),
-    .MEMORY_OUT(memory_out)
+    .MEMORY_OUT(memory_out),
+    .CTR_INFO_OUT(ctr_info_e)
   );
   // need for write stage
   wire write_enable;
@@ -152,7 +154,7 @@ module cpu (
     .RSTN(RSTN),
     .WRITER_ENABLED(writer_enabled),
     .REGISTER_FILE(register_file),
-    .CTR_INFO(ctr_info),
+    .CTR_INFO(ctr_info_e),
     .EXEC_RD(exec_rd),
     .MEMORY_OUT(memory_out),
     .WRITE_ENABLE(write_enable),
@@ -186,7 +188,7 @@ module cpu (
       // write back
       s_write: begin
         if(write_enable & writer_enabled) begin
-          register_file[ctr_info.rd] <= write_data;
+          register_file[ctr_info_e.rd] <= write_data;
         end
       end
 
