@@ -7,33 +7,6 @@ module cpu (
   output wire [31:0] RESULT
 );
 
-  // // define CPU state
-  // reg [3:0] cpu_state;
-  // localparam s_idle = 0;
-  // localparam s_fetch = 1;
-  // localparam s_decode = 2;
-  // localparam s_execute = 3;
-  // localparam s_write = 4;
-  // initial begin
-  //   cpu_state <= s_fetch;
-  // end
-  // always @(posedge CLK) begin
-  //   case(cpu_state)
-  //     s_fetch: begin
-  //       cpu_state <= s_decode;
-  //     end
-  //     s_decode: begin
-  //       cpu_state <= s_execute;
-  //     end
-  //     s_execute: begin
-  //       cpu_state <= s_write;
-  //     end
-  //     s_write: begin
-  //       cpu_state <= s_fetch;
-  //     end
-  //   endcase
-  // end
-
 
   // important components
   reg [31:0] register_file [0:31];
@@ -190,93 +163,15 @@ module cpu (
       pc <= pc + 1;
     end
 
-
-
-    // // stall when conditional jump
-    // if(conditional_jump == 1 & conditional_jump_count == 0) begin
-    //   // conditional instruction is in decode stage
-    //   conditional_jump_count <= 1;
-    //   decoder_enabled <= 0;
-    // end
-    // else if(conditional_jump_count == 1) begin
-    //   // conditional instruction is in execute stage
-    //   conditional_jump_count <= 2;
-    //   executer_enabled <= 0;
-    //   pc <= jump_dest;
-    // end
-    // else if(conditional_jump_count == 2) begin
-    //   // conditional instruction is in write stage
-    //   conditional_jump_count <= 3;
-    //   writer_enabled <= 0;
-    //   decoder_enabled <= 1;
-    //   pc <= pc + 1;
-    // end
-    // else if(conditional_jump_count == 3) begin
-    //   if (conditional_jump == 1) begin
-    //     conditional_jump_count <= 1;
-    //     decoder_enabled <= 0;
-    //   end
-    //   else begin
-    //     conditional_jump_count <= 4;
-    //   end
-    //   executer_enabled <= 1;
-    //   pc <= pc + 1;
-    // end
-    // else if (conditional_jump_count == 4) begin
-    //   if (conditional_jump == 1) begin
-    //     conditional_jump_count <= 1;
-    //     decoder_enabled <= 0;
-    //   end
-    //   else begin
-    //     conditional_jump_count <= 0;
-    //   end
-    //   writer_enabled <= 1;
-    //   pc <= pc + 1;
-    // end
-    // else begin
-    //   pc <= pc + 1;
-    // end
-
-
     // fetch instruction
     instruction <= inst_mem[pc];
 
     // decode instruction
 
-    // case : exec instruction case
-    // TODO: prevent overwriting twice
-    // pc <= jump_dest;
-
     // write back
     if(write_enable & writer_enabled) begin
       register_file[ctr_info_e.rd] <= write_data;
     end
-
-
-    // // state machine
-    // case(cpu_state)
-    //   // fetch instruction
-    //   s_fetch: begin
-    //     instruction <= inst_mem[pc];
-    //   end
-
-    //   // decode instruction
-    //   s_decode: begin
-    //   end
-
-    //   // case : exec instruction case
-    //   s_execute: begin
-    //     pc <= jump_dest;
-    //   end
-
-    //   // write back
-    //   s_write: begin
-    //     if(write_enable & writer_enabled) begin
-    //       register_file[ctr_info_e.rd] <= write_data;
-    //     end
-    //   end
-
-    // endcase
 
   end
 
