@@ -115,20 +115,14 @@ module cpu (
   // need for fetch stage
   reg [31:0] instruction;
   // need for decode stage
-  wire [4:0] rs1;
-  wire [4:0] rs2;
   decoder decode (
     .CLK(CLK),
     .RSTN(RSTN),
     .DECODER_ENABLED(decoder_enabled),
     .INSTRUCTION(instruction),
     .PC(pc),
-    .RS1(rs1),
-    .RS2(rs2),
     .CTR_INFO(ctr_info_d)
   );
-  reg [31:0] rs1_val;
-  reg [31:0] rs2_val;
   // need for execute stage
   wire [31:0] jump_dest;
   reg [31:0] exec_rd;
@@ -137,9 +131,8 @@ module cpu (
     .CLK(CLK),
     .RSTN(RSTN),
     .EXECUTER_ENABLED(executer_enabled),
+    .REGISTER_FILE(register_file),
     .CTR_INFO(ctr_info_d),
-    .RS1_VAL(rs1_val),
-    .RS2_VAL(rs2_val),
     .FORWARDED_VAL(write_data),
     .JUMP_DEST(jump_dest),
     .EXEC_RD(exec_rd),
@@ -176,8 +169,6 @@ module cpu (
 
       // decode instruction
       s_decode: begin
-        rs1_val <= register_file[rs1];
-        rs2_val <= register_file[rs2];
       end
 
       // case : exec instruction case

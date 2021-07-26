@@ -4,9 +4,8 @@ module executer(
   input wire CLK,
   input wire RSTN,
   input reg EXECUTER_ENABLED,
+  input reg [31:0] REGISTER_FILE [0:31],
   input control_info CTR_INFO,
-  input reg [31:0] RS1_VAL,
-  input reg [31:0] RS2_VAL,
   input reg [31:0] FORWARDED_VAL,
   output wire [31:0] JUMP_DEST,
   output reg [31:0] EXEC_RD,
@@ -14,6 +13,9 @@ module executer(
   output control_info CTR_INFO_OUT
 );
 
+//TODO: Forwarding
+wire [31:0] RS1_VAL = REGISTER_FILE[CTR_INFO.rs1];
+wire [31:0] RS2_VAL = REGISTER_FILE[CTR_INFO.rs2];
 
 aluer alu(
   .CLK(CLK),

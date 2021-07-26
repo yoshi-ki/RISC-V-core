@@ -6,6 +6,8 @@ typedef struct {
   reg [31:0] pc;
   reg [4:0] rd;
   reg [31:0] immediate;
+  reg [4:0] rs1;
+  reg [4:0] rs2;
 
   ////
   // rv-32-i instruction
@@ -77,6 +79,7 @@ typedef struct {
   reg conditional_jump;
   reg forwarding_rs1;
   reg forwarding_rs2;
+
 
 
 } control_info;

@@ -80,7 +80,7 @@ module writer(
   assign WRITE_DATA = write_data;
 
 always @(posedge CLK) begin
-  // if(write_enable) begin
+  // if(write_enable & WRITER_ENABLED) begin
   //   REGISTER_FILE[CTR_INFO.rd] <= write_data;
   // end
 end

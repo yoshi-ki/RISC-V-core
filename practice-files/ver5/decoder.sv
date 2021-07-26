@@ -7,8 +7,6 @@ module decoder(
   input wire [31:0] INSTRUCTION,
   input wire [31:0] PC,
 
-  output wire [4:0] RS1,
-  output wire [4:0] RS2,
   output control_info CTR_INFO
 
 );
@@ -30,8 +28,8 @@ wire J_type = (opcode == 7'b1101111);
 
 
 // decode the instruction components
-assign RS1    = (R_type | I_type | S_type | B_type) ? rs1 : 5'b0;
-assign RS2    = (R_type | S_type | B_type)          ? rs2 : 5'b0;
+wire [4:0] RS1    = (R_type | I_type | S_type | B_type) ? rs1 : 5'b0;
+wire [4:0] RS2    = (R_type | S_type | B_type)          ? rs2 : 5'b0;
 wire [4:0] RD     = (R_type | I_type | U_type | J_type) ? rd : 5'b0;
 wire [2:0] funct3 = (R_type | I_type | S_type | B_type) ? funct3_ : 3'b0;
 wire [6:0] funct7 = (R_type)                            ? funct7_ : 7'b0;
@@ -153,6 +151,8 @@ always @(posedge CLK) begin
     CTR_INFO.rd <= RD;
     CTR_INFO.immediate <= IMMEDIATE;
     CTR_INFO.pc <= PC;
+    CTR_INFO.rs1 <= RS1;
+    CTR_INFO.rs2 <= RS2;
 
     CTR_INFO.conditional_jump <= is_conditional_jump;
 
