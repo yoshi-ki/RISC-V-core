@@ -147,6 +147,7 @@ module cpu (
 
     completed <= (ctr_info_e.pc == final_pc+1);
 
+    // stall controller
     // stall when conditional jump write and execute not disabled
     if(conditional_jump == 1 & conditional_jump_count == 0) begin
       // conditional instruction is in decode stage
