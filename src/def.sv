@@ -74,6 +74,9 @@ typedef struct {
   reg rem;
   reg remu;
 
+  // privileged
+  reg mret;
+
 
   // represents it is conditional jump instructions
   reg forwarding_rs1;
@@ -82,4 +85,13 @@ typedef struct {
 
 
 } control_info;
+
+
+typedef struct {
+  reg [31:0] mepc;
+  reg [31:0] mie;
+  reg [31:0] mcause;
+} csr_register;
+
+
 `endif

@@ -11,12 +11,16 @@ module cpu (
   // Note that we have to change this val when you want to change the number of instructions.
   wire [31:0] final_pc = 32'd35;
 
+  // define cpu mode
+  reg cpu_mode;
+  localparam user_mode = 0;
+  localparam machine_mode = 1;
 
-  // important components
+  // define important components
   reg [31:0] pc;
   reg [31:0] executing_inst;
 
-  // control flags
+  // define control flags
   reg decoder_enabled;
   reg executer_enabled;
   reg writer_enabled;
@@ -79,6 +83,8 @@ module cpu (
     decoder_enabled <= 1;
     executer_enabled <= 1;
     writer_enabled <= 1;
+
+    cpu_mode <= user_mode;
   end
 
 
