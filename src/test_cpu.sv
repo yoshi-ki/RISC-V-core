@@ -1,26 +1,42 @@
 `timescale 1ns / 100ps
 `default_nettype none
 
+// exec cpu for test
 module test_cpu ();
 
-  // exec cpu for test
   wire rstn = 0;
-  wire [31:0] result;
-  cpu u1(clk, rstn, result);
+  // wire [31:0] result;
+  wire completed;
+  wire [31:0] registers [0:31];
+  int max_clocks = 100000;
+
+  cpu u1(clk, rstn, registers, completed);
 
   reg clk;
-  int i;
+  int clock_count;
+  int index;
   initial begin
-    // forever begin
-    //   clk = 0;
-    //   #10 clk = ~clk;
-    //   $display(result);
-    // end
+    $display("--------------- start simulation ---------------");
     clk = 0;
-    for (i = 0; i < 100000; i++) begin
+    for (clock_count = 0; clock_count < max_clocks; clock_count++) begin
       #10 clk = ~clk;
-      $display(result);
+
+      // completed signal
+      if (completed) begin
+        break;
+      end
+
     end
+    $display("clocks       : %5d", clock_count);
+    for (index = 0; index < 32; index++) begin
+      if (index % 4 == 3) begin
+        $display("     r%02d: %4d,", index, $signed(registers[index]));
+      end else begin
+        $write("     r%02d: %4d,", index, $signed(registers[index]));
+      end
+    end
+    // $display("     r%02d: %4d", index, $signed(registers[index]));
+    $display("--------------- end simulation ---------------");
     $finish;
   end
 
