@@ -4,12 +4,14 @@
 module cpu (
   input wire CLK,
   input wire RSTN,
+  input wire INTERRUPT,
   output reg [31:0] register_file [0:31],
   output reg completed
 );
 
   // Note that we have to change this val when you want to change the number of instructions.
   wire [31:0] final_pc = 32'd35;
+  wire [31:0] mtvec_pc = 32'd36;
 
   // define cpu mode
   reg cpu_mode;
@@ -19,6 +21,7 @@ module cpu (
   // define important components
   reg [31:0] pc;
   reg [31:0] executing_inst;
+  csr_registers csr_register;
 
   // define control flags
   reg decoder_enabled;
@@ -85,6 +88,7 @@ module cpu (
     writer_enabled <= 1;
 
     cpu_mode <= user_mode;
+    csr_register.mtvec <= mtvec_pc;
   end
 
 
@@ -183,6 +187,12 @@ module cpu (
     // write back
     if(write_enable & writer_enabled) begin
       register_file[ctr_info_e.rd] <= write_data;
+    end
+
+
+    // when the interrupt is come
+    if (INTERRUPT) begin
+
     end
 
   end

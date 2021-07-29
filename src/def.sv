@@ -88,10 +88,22 @@ typedef struct {
 
 
 typedef struct {
-  reg [31:0] mepc;
+
+  // for trap
+  reg [31:0] mstatus;
+  reg [31:0] misa;
+  reg [31:0] medeleg;
+  reg [31:0] mideleg;
   reg [31:0] mie;
-  reg [31:0] mcause;
-} csr_register;
+  reg [31:0] mtvec;
+
+  reg [31:0] mbase;
+  reg [31:0] mbound;
+  reg [31:0] mibase;
+  reg [31:0] mibound;
+  reg [31:0] mdbase;
+  reg [31:0] mdbound;
+} csr_registers;
 
 
 `endif
