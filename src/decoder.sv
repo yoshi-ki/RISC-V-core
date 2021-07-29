@@ -7,6 +7,7 @@ module decoder(
   input wire [31:0] INSTRUCTION,
   input wire [31:0] PC,
   output wire CONDITIONAL_JUMP,
+  output wire MRET,
   output control_info CTR_INFO
 
 );
@@ -94,6 +95,7 @@ wire is_mret   = (opcode == 7'b1110011) && (INSTRUCTION[31:7] == 25'b00110000001
 wire is_conditional_jump = (is_beq || is_bne || is_blt || is_bge || is_bltu || is_bgeu || is_jal || is_jalr);
 
 assign CONDITIONAL_JUMP = is_conditional_jump;
+assign MRET = is_mret;
 
 // check if it needs forwarding
 reg [4:0] prev_rd;

@@ -12,6 +12,7 @@ module cpu (
   // Note that we have to change this val when you want to change the number of instructions.
   wire [31:0] final_pc = 32'd35;
   wire [31:0] mtvec_pc = 32'd36;
+  localparam inst_mem_size = 32'd46;
 
   // define cpu mode
   reg cpu_mode;
@@ -28,13 +29,17 @@ module cpu (
   reg executer_enabled;
   reg writer_enabled;
 
+  // define for interrupt
+  reg [31:0] interrupt_count;
+  wire mret;
+
 
   ////////////////////
   // code for test
   ////////////////////
   //constants inst_mem
   // assign RESULT = register_file[14];
-  reg [31:0] inst_mem [0:35] = '{
+  reg [31:0] inst_mem [0:inst_mem_size] = '{
     32'b00000111010000000000000011101111,  //  0. jal	ra,74 <main>
     32'b11111110000000010000000100010011,  //  1. addi	sp(=r2),sp,-32
     32'b00000000000100010010111000100011,  //  2. sw	ra(=r1),28(sp)
@@ -71,6 +76,19 @@ module cpu (
     32'b00000000101000000000010100010011,  // 33. li	a0,10
     32'b11110111110111111111000011101111,  // 34. jal	ra,4 <fib>
     32'b00000000000000000000000001101111   // 35. j	8c <main+0x18>
+    // add for interrupt instruction.
+    ,
+    32'b00000000000000000000000000010011,  // 36. addi a0, a0, 0
+    32'b00000000000000000000000000010011,  // 37. addi a0, a0, 0
+    32'b00000000000000000000000000010011,  // 38. addi a0, a0, 0
+    32'b00000000000000000000000000010011,  // 39. addi a0, a0, 0
+    32'b00000000000000000000000000010011,  // 40. addi a0, a0, 0
+    32'b00000000000000000000000000010011,  // 41. addi a0, a0, 0
+    32'b00000000000000000000000000010011,  // 42. addi a0, a0, 0
+    32'b00000000000000000000000000010011,  // 43. addi a0, a0, 0
+    32'b00000000000000000000000000010011,  // 44. addi a0, a0, 0
+    32'b00000000000000000000000000010011,  // 45. addi a0, a0, 0
+    32'b00110000001000000000000001110011   // 46. mret
   };
   int reg_index; // index used for register initialization
   initial begin
@@ -89,6 +107,7 @@ module cpu (
 
     cpu_mode <= user_mode;
     csr_register.mtvec <= mtvec_pc;
+    interrupt_count <= 0;
   end
 
 
@@ -108,6 +127,7 @@ module cpu (
     .INSTRUCTION(instruction),
     .PC(pc),
     .CONDITIONAL_JUMP(conditional_jump),
+    .MRET(mret),
     .CTR_INFO(ctr_info_d)
   );
   // need for execute stage
@@ -155,9 +175,9 @@ module cpu (
   ////////////////////
   always @(posedge CLK) begin
 
-    completed <= (ctr_info_e.pc == final_pc+1);
+    completed <= (ctr_info_e.pc == final_pc+1 & interrupt_count == 0);
 
-    // stall controller
+    // ---------------- stall controller -----------------
     // stall when conditional jump write and execute not disabled
     if(conditional_jump == 1 & conditional_jump_count == 0) begin
       // conditional instruction is in decode stage
@@ -175,12 +195,49 @@ module cpu (
       decoder_enabled <= 1;
       pc <= pc + 1;
     end
+    // -------------------- when the interrupt comes -------------------
+    else if (INTERRUPT & interrupt_count == 0) begin
+      cpu_mode <= machine_mode;
+      csr_register.mepc <= pc;
+      // csr_register.mcause <= cause; // we have to add cause but for simplicity it is commented out.
+      interrupt_count <= 1;
+      decoder_enabled <= 0;
+    end
+    else if (interrupt_count == 1) begin
+      interrupt_count <= 2;
+    end
+    else if (interrupt_count == 2) begin
+      interrupt_count <= 3;
+      decoder_enabled <= 1;
+      pc <= csr_register.mtvec;
+    end
+    else if (interrupt_count == 3 & mret) begin
+      decoder_enabled <= 0;
+      interrupt_count <= 4;
+    end
+    else if (interrupt_count == 4) begin
+      interrupt_count <= 5;
+    end
+    else if (interrupt_count == 5) begin
+      decoder_enabled <= 1;
+      interrupt_count <= 0;
+      cpu_mode <= user_mode;
+      pc <= csr_register.mepc;
+    end
     else begin
       pc <= pc + 1;
     end
 
+
+
+
     // fetch instruction
-    instruction <= inst_mem[pc];
+    if (pc <= inst_mem_size) begin
+      instruction <= inst_mem[pc];
+    end
+    else begin
+      instruction <= 32'b00000000000000000000000000010011;
+    end
 
     // decode instruction
 
@@ -189,11 +246,6 @@ module cpu (
       register_file[ctr_info_e.rd] <= write_data;
     end
 
-
-    // when the interrupt is come
-    if (INTERRUPT) begin
-
-    end
 
   end
 

@@ -97,12 +97,11 @@ typedef struct {
   reg [31:0] mie;
   reg [31:0] mtvec;
 
-  reg [31:0] mbase;
-  reg [31:0] mbound;
-  reg [31:0] mibase;
-  reg [31:0] mibound;
-  reg [31:0] mdbase;
-  reg [31:0] mdbound;
+  reg [31:0] mscratch;
+  reg [31:0] mepc;
+  reg [31:0] mcause;
+  reg [31:0] mbadaddr;
+  reg [31:0] mip;
 } csr_registers;
 
 
