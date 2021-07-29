@@ -4,12 +4,15 @@
 module cpu (
   input wire CLK,
   input wire RSTN,
-  output wire [31:0] RESULT
+  output reg [31:0] register_file [0:31],
+  output reg completed
 );
+
+  // Note that we have to change this val when you want to change the number of instructions.
+  wire [31:0] final_pc = 32'd35;
 
 
   // important components
-  reg [31:0] register_file [0:31];
   reg [31:0] pc;
   reg [31:0] executing_inst;
 
@@ -23,7 +26,7 @@ module cpu (
   // code for test
   ////////////////////
   //constants inst_mem
-  assign RESULT = register_file[14];
+  // assign RESULT = register_file[14];
   reg [31:0] inst_mem [0:35] = '{
     32'b00000111010000000000000011101111,  //  0. jal	ra,74 <main>
     32'b11111110000000010000000100010011,  //  1. addi	sp(=r2),sp,-32
@@ -58,7 +61,7 @@ module cpu (
     32'b00000000000100010010011000100011,  // 30. sw	ra,12(sp)
     32'b00000000100000010010010000100011,  // 31. sw	s0,8(sp)
     32'b00000001000000010000010000010011,  // 32. addi	s0,sp,16
-    32'b00000000010100000000010100010011,  // 33. li	a0,5
+    32'b00000000101000000000010100010011,  // 33. li	a0,10
     32'b11110111110111111111000011101111,  // 34. jal	ra,4 <fib>
     32'b00000000000000000000000001101111   // 35. j	8c <main+0x18>
   };
@@ -141,6 +144,8 @@ module cpu (
   // define each stage
   ////////////////////
   always @(posedge CLK) begin
+
+    completed <= (ctr_info_e.pc == final_pc+1);
 
     // stall when conditional jump write and execute not disabled
     if(conditional_jump == 1 & conditional_jump_count == 0) begin
