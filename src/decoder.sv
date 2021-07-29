@@ -7,6 +7,7 @@ module decoder(
   input wire [31:0] INSTRUCTION,
   input wire [31:0] PC,
   output wire CONDITIONAL_JUMP,
+  output wire MRET,
   output control_info CTR_INFO
 
 );
@@ -17,9 +18,10 @@ wire [4:0] rs1 = INSTRUCTION[19:15];
 wire [4:0] rs2 = INSTRUCTION[24:20];
 wire [2:0] funct3_ = INSTRUCTION[14:12];
 wire [6:0] funct7_ = INSTRUCTION[31:25];
+wire is_privileged = (opcode == 7'b1110011 && (funct3_ == 3'b000 || funct3_ == 3'b100));
 
 // Caution: for part of RV32-I and RV32-M!!
-wire R_type = (opcode == 7'b0110011);
+wire R_type = (opcode == 7'b0110011 | is_privileged);
 wire I_type = (opcode == 7'b1100111 | opcode == 7'b0000011 | opcode == 7'b0010011);
 wire S_type = (opcode == 7'b0100011);
 wire B_type = (opcode == 7'b1100011);
@@ -86,12 +88,14 @@ wire is_div    = (opcode == 7'b0110011 & funct3 == 3'b100 & funct7 == 7'b0000001
 wire is_divu   = (opcode == 7'b0110011 & funct3 == 3'b101 & funct7 == 7'b0000001);
 wire is_rem    = (opcode == 7'b0110011 & funct3 == 3'b110 & funct7 == 7'b0000001);
 wire is_remu   = (opcode == 7'b0110011 & funct3 == 3'b111 & funct7 == 7'b0000001);
+wire is_mret   = (opcode == 7'b1110011) && (INSTRUCTION[31:7] == 25'b0011000000100000000000000);
 
 // wire is_conditional_jump = (is_beq || is_bne || is_blt || is_bge || is_bltu || is_bgeu);
 // wire is_jump_inst = (is_jal || is_jalr);
 wire is_conditional_jump = (is_beq || is_bne || is_blt || is_bge || is_bltu || is_bgeu || is_jal || is_jalr);
 
 assign CONDITIONAL_JUMP = is_conditional_jump;
+assign MRET = is_mret;
 
 // check if it needs forwarding
 reg [4:0] prev_rd;
@@ -150,6 +154,8 @@ always @(posedge CLK) begin
     CTR_INFO.divu <= is_divu;
     CTR_INFO.rem <= is_rem;
     CTR_INFO.remu <= is_remu;
+
+    CTR_INFO.mret <= is_mret;
 
 
     CTR_INFO.rd <= RD;

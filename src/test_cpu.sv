@@ -9,8 +9,9 @@ module test_cpu ();
   wire completed;
   wire [31:0] registers [0:31];
   int max_clocks = 100000;
+  logic interrupt = 0;
 
-  cpu u1(clk, rstn, registers, completed);
+  cpu u1(clk, rstn, interrupt, registers, completed);
 
   reg clk;
   int clock_count;
@@ -20,6 +21,14 @@ module test_cpu ();
     clk = 0;
     for (clock_count = 0; clock_count < max_clocks; clock_count++) begin
       #10 clk = ~clk;
+
+      // interrupt signal
+      if (clock_count == 200) begin
+        interrupt = 1;
+      end
+      else if (clock_count == 201) begin
+        interrupt = 0;
+      end
 
       // completed signal
       if (completed) begin
