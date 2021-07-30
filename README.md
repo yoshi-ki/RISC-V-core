@@ -81,6 +81,25 @@ Once you got the compiled machine code, you can use my processor to process the 
 ## Wave Check by Vivado
 You may want to use the vivado wave simulator to check the movement of the architecture precisely. For the wave check, please check [my blog about how to use the vivado simulator](https://yoshi-ki.medium.com/create-risc-v-core-using-verilog-hdl-3-simulation-tools-3a3f30f5b62e).
 
+
+## Privileged version
+Please see [this branch](https://github.com/yoshi-ki/RISC-V-core/tree/privileged_finish) to check privileged instructions.
+
+## Examples
+Runnig ./simulation.sh in this code will execute fib(12). The below is the result of the execution.
+"clocks" represents the number of clocks and r00 - r31 represent the registers after execution.
+```
+clocks: 26523
+     r00:    0,     r01:   36,     r02:  484,     r03:    0,
+     r04:    0,     r05:    0,     r06:    0,     r07:    0,
+     r08:  500,     r09:    0,     r10:  233,     r11:    0,
+     r12:    0,     r13:    0,     r14:    0,     r15:  233,
+     r16:    0,     r17:    0,     r18:    0,     r19:    0,
+     r20:    0,     r21:    0,     r22:    0,     r23:    0,
+     r24:    0,     r25:    0,     r26:    0,     r27:    0,
+     r28:    0,     r29:    0,     r30:    0,     r31:    0,
+```
+
 ## About Practice files for My Blog
 
 /ver1: This core can execute add.
