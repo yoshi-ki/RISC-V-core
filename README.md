@@ -61,6 +61,8 @@ x29       | t4          | temporary register 4
 x30       | t5          | temporary register 5                  
 x31       | t6          | temporary register 6                  
 
+Registers of the RV32I. Based on RISC-V documentation and Patterson and Waterman "The RISC-V Reader" (2017)
+
 ## Compiler Installation & Run
 For installation of the RISC-V compiler, please check [my blog](https://yoshi-ki.medium.com/create-risc-v-core-using-verilog-hdl-1-setting-up-a-risc-v-cross-compiler-f0b2f8d57ca1).
 This blog also covers how to run the compiler.
