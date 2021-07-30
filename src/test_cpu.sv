@@ -35,10 +35,10 @@ module test_cpu ();
       //   interrupt = 0;
       // end
 
-      // // completed signal
-      // if (completed) begin
-      //   break;
-      // end
+      // completed signal
+      if (completed) begin
+        break;
+      end
 
     end
     $display("clocks: %5d", clock_count);
