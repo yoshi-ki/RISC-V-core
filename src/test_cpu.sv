@@ -28,6 +28,12 @@ module test_cpu ();
       else if (clock_count == 201) begin
         interrupt = 0;
       end
+      if (clock_count == 2000) begin
+        interrupt = 1;
+      end
+      else if (clock_count == 2001) begin
+        interrupt = 0;
+      end
 
       // completed signal
       if (completed) begin
