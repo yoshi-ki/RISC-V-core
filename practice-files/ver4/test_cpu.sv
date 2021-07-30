@@ -16,7 +16,6 @@ module test_cpu ();
   int clock_count;
   int index;
   initial begin
-    $display("--------------- start simulation ---------------");
     clk = 0;
     for (clock_count = 0; clock_count < max_clocks; clock_count++) begin
       #10 clk = ~clk;
@@ -27,7 +26,7 @@ module test_cpu ();
       end
 
     end
-    $display("clocks       : %5d", clock_count);
+    $display("clocks: %5d", clock_count);
     for (index = 0; index < 32; index++) begin
       if (index % 4 == 3) begin
         $display("     r%02d: %4d,", index, $signed(registers[index]));
@@ -36,7 +35,6 @@ module test_cpu ();
       end
     end
     // $display("     r%02d: %4d", index, $signed(registers[index]));
-    $display("--------------- end simulation ---------------");
     $finish;
   end
 
