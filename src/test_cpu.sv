@@ -21,24 +21,24 @@ module test_cpu ();
     for (clock_count = 0; clock_count < max_clocks; clock_count++) begin
       #10 clk = ~clk;
 
-      // interrupt signal
-      if (clock_count == 200) begin
-        interrupt = 1;
-      end
-      else if (clock_count == 201) begin
-        interrupt = 0;
-      end
-      if (clock_count == 2000) begin
-        interrupt = 1;
-      end
-      else if (clock_count == 2001) begin
-        interrupt = 0;
-      end
+      // // interrupt signal
+      // if (clock_count == 200) begin
+      //   interrupt = 1;
+      // end
+      // else if (clock_count == 201) begin
+      //   interrupt = 0;
+      // end
+      // if (clock_count == 2000) begin
+      //   interrupt = 1;
+      // end
+      // else if (clock_count == 2001) begin
+      //   interrupt = 0;
+      // end
 
-      // completed signal
-      if (completed) begin
-        break;
-      end
+      // // completed signal
+      // if (completed) begin
+      //   break;
+      // end
 
     end
     $display("clocks: %5d", clock_count);
